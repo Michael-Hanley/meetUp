@@ -20,8 +20,8 @@ export class HomePage {
     this.loadMap();
     this.showMyLocation();
   }
-  loadMap(){
 
+  loadMap(){
    this.geolocation.getCurrentPosition().then((position) => {
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       let mapOptions = {
@@ -29,18 +29,15 @@ export class HomePage {
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
-
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-
     }, (err) => {
       console.log(err);
     });
   }
+
   showMyLocation() {
     this.geolocation.watchPosition().subscribe((position) => {
-
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
       let marker = new google.maps.Marker({
         map: this.map,
         icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
@@ -49,23 +46,19 @@ export class HomePage {
           new google.maps.Point(11, 11)),
         position: latLng
       });
-
       let content = "<h4>You are here</h4>";
       this.addInfoWindow(marker, content);
-
     }, (err) => {
       console.log(err);
     });
   }
-  addInfoWindow(marker, content) {
 
+  addInfoWindow(marker, content) {
     let infoWindow = new google.maps.InfoWindow({
       content: content
     });
-
     google.maps.event.addListener(marker, 'click', () => {
       infoWindow.open(this.map, marker);
     });
-
   }
 }
