@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
+import { AuthProvider } from '../../providers/auth';
+import { ModalController } from 'ionic-angular';
+import { ModalPage } from './modal-page';
 
 /**
  * Generated class for the Login page.
@@ -14,17 +17,42 @@ import { TabsPage } from '../tabs/tabs';
   templateUrl: 'login.html',
 })
 export class Login {
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  form: any;
+  error: any;
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private loadingCtrl: LoadingController, private auth: AuthProvider,
+    public modalCtrl: ModalController) {
+    this.form = {
+      email: '',
+      password: ''
+    }
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Login');
   }
   onLogin() {
-    //push another page onto the history stack
-    //causing the nav controller to animate the new page in
-    this.navCtrl.push(TabsPage);
+    let loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    loading.present();
+
+    this.auth.loginWithEmail(this.form).subscribe(data => {
+      setTimeout(() => {
+        loading.dismiss();
+        this.navCtrl.push(TabsPage);
+        // The auth subscribe method inside the app.ts will handle the page switch to home
+      }, 1000);
+    }, err => {
+      setTimeout(() => {
+        loading.dismiss();
+        this.error = err;
+      }, 1000);
+    });
+  }
+  presentModal() {
+    let modal = this.modalCtrl.create(ModalPage);
+    modal.present();
   }
 
 }

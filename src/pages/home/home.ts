@@ -26,8 +26,9 @@ export class HomePage {
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       let mapOptions = {
         center: latLng,
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        zoom: 17,
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        scrollwheel: false
       }
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
     }, (err) => {
