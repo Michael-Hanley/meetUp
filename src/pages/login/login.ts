@@ -42,12 +42,12 @@ export class Login {
         loading.dismiss();
         this.navCtrl.push(TabsPage);
         // The auth subscribe method inside the app.ts will handle the page switch to home
-      }, 1000);
+      });
     }, err => {
       setTimeout(() => {
         loading.dismiss();
         this.error = err;
-      }, 1000);
+      });
     });
   }
   presentModal() {
