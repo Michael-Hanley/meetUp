@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController  } from 'ionic-angular';
 import { AuthProvider } from '../../../providers/auth';
 import { HomePage } from '../../home/home';
+import { Login } from '../login';
+
 /**
  * Generated class for the Register page.
  *
@@ -22,8 +24,13 @@ export class Register {
     private loadingCtrl: LoadingController) {
     this.form = {
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     }
+  }
+
+  openLoginPage(): void {
+    this.navCtrl.push(Login);
   }
 
   register() {
