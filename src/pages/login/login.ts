@@ -3,7 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-an
 import { TabsPage } from '../tabs/tabs';
 import { AuthProvider } from '../../providers/auth';
 import { ModalController } from 'ionic-angular';
-import { ModalPage } from './modal-page';
+import { Register } from './register/register';
 
 /**
  * Generated class for the Login page.
@@ -51,8 +51,8 @@ export class Login {
     });
   }
   presentModal() {
-    let modal = this.modalCtrl.create(ModalPage);
-    modal.present();
+    let myModal = this.modalCtrl.create(Register);
+    myModal.present();
   }
 
 }
