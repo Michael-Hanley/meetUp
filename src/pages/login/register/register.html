@@ -21,17 +21,27 @@
     <ion-list>
       <ion-item>
         <ion-label floating>Email</ion-label>
-        <ion-input type="text" [(ngModel)]="form.email" name="name"></ion-input>
+        <ion-input type="email" class="form-control" id="email"
+        [(ngModel)]="form.email" name="email"
+        #email="ngModel"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="!email.valid || (!email.pristine && signUpForm.submitted)">
+        Email is required.
       </ion-item>
 
       <ion-item>
         <ion-label floating>Password</ion-label>
-        <ion-input type="password" [(ngModel)]="form.password" name="password"></ion-input>
+        <ion-input type="password" [(ngModel)]="form.password" name="password"
+        required #password="ngModel"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label floating>Confirm Password</ion-label>
-        <ion-input type="password" [(ngModel)]="form.confirmPassword" name="confirmPassword"></ion-input>
+        <ion-input type="password" [(ngModel)]="form.confirmPassword" name="confirmPassword"
+        required validateEqual="password"  #confirmPassword="ngModel"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="(!confirmPassword.valid && !confirmPassword.pristine && !password.pristine) || (!confirmPassword.valid && !confirmPassword.pristine && signUpForm.submitted)">
+        Password do not match.
       </ion-item>
     </ion-list>
 

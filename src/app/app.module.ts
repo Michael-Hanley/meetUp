@@ -12,7 +12,7 @@ import { Register } from '../pages/login/register/register';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Geolocation } from '@ionic-native/geolocation';
-
+import { areEqualValidator } from '../directives/areEqualValidation.directive';
 // Import the AF2 Module
 import { AngularFireModule } from 'angularfire2';
 
@@ -38,7 +38,8 @@ export const firebaseConfig = {
     HomePage,
     TabsPage,
     Login,
-    Register
+    Register,
+    areEqualValidator
   ],
   imports: [
     BrowserModule,
