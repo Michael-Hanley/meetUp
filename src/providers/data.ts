@@ -4,7 +4,10 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class DataProvider {
-  constructor(private af: AngularFire) {}
+  item: FirebaseObjectObservable<any>;
+  constructor(private af: AngularFire) {
+    this.item = af.database.object('/item');
+  }
 
   push(path: string, data: any): Observable<any> {
     return Observable.create(observer => {
@@ -38,5 +41,11 @@ export class DataProvider {
         observer.error(error);
       });
     });
+  }
+
+  showMyLocation(newName: any) {
+   // let thing = this.auth.getUserData();
+   // console.log(thing);
+    this.item.set({ name: newName });
   }
 }

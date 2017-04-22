@@ -36,7 +36,7 @@ export class Login {
       content: 'Please wait...'
     });
     loading.present();
-
+    //this.navCtrl.push(TabsPage); //FOR DEVELOPEMENT ONLY
     this.auth.loginWithEmail(this.form).subscribe(data => {
       setTimeout(() => {
         loading.dismiss();
@@ -48,6 +48,11 @@ export class Login {
         loading.dismiss();
         this.error = err;
       });
+    });
+  }
+  onFacebookLogin() {
+    this.auth.loginWithFacebook().subscribe(data => {
+      console.log(data);
     });
   }
   presentModal() {

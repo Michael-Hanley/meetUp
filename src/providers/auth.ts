@@ -3,14 +3,14 @@ import { Platform } from 'ionic-angular';
 import { AngularFire, AuthProviders, AuthMethods } from 'angularfire2';
 import { Observable } from 'rxjs/Observable';
 import firebase from 'firebase';
-
+import { Facebook } from '@ionic-native/Facebook';
 // Providers
 import {DataProvider} from './data';
 
 @Injectable()
 export class AuthProvider {
   user: any;
-  constructor(private af: AngularFire, private data: DataProvider, private platform: Platform) {
+  constructor(private af: AngularFire, private data: DataProvider, private platform: Platform, private fb: Facebook) {
   }
 
   getUserData() {
@@ -70,6 +70,42 @@ export class AuthProvider {
       }).catch((error) => {
         observer.error(error);
       });
+    });
+  }
+  loginWithFacebook() {
+    return Observable.create(observer => {
+      if (this.platform.is('cordova')) {
+        this.fb.login(['public_profile', 'email']).then(facebookData => {
+          let provider = firebase.auth.FacebookAuthProvider.credential(facebookData.authResponse.accessToken);
+          firebase.auth().signInWithCredential(provider).then(firebaseData => {
+            this.af.database.list('users').update(firebaseData.uid, {
+              name: firebaseData.displayName,
+              email: firebaseData.email,
+              provider: 'facebook',
+              image: firebaseData.photoURL
+            });
+            observer.next();
+          });
+        }, error => {
+          observer.error(error);
+        });
+      } else {
+        this.af.auth.login({
+          provider: AuthProviders.Facebook,
+          method: AuthMethods.Popup
+        }).then((facebookData) => {
+          this.af.database.list('users').update(facebookData.auth.uid, {
+            name: facebookData.auth.displayName,
+            email: facebookData.auth.email,
+            provider: 'facebook',
+            image: facebookData.auth.photoURL
+          });
+          observer.next();
+        }).catch((error) => {
+          console.info("error", error);
+          observer.error(error);
+        });
+      }
     });
   }
   sendPasswordResetEmail(email) {

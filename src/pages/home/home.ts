@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController  } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
+import { DataProvider } from '../../providers/data';
 
 declare var google;
 
@@ -12,8 +13,9 @@ export class HomePage {
 
   @ViewChild('map') mapElement: ElementRef;
   map: any;
-
-  constructor(public navCtrl: NavController, public geolocation: Geolocation) {
+  constructor(public navCtrl: NavController,
+  public geolocation: Geolocation,
+  private data: DataProvider) {
 
   }
   ionViewDidLoad(){
@@ -60,6 +62,15 @@ export class HomePage {
     });
     google.maps.event.addListener(marker, 'click', () => {
       infoWindow.open(this.map, marker);
+    });
+  }
+
+  shareMyLocation() {
+    this.geolocation.getCurrentPosition().then((position) => {
+      let latLng = {latitude: position.coords.latitude, longitude: position.coords.longitude};
+      this.data.showMyLocation(latLng);
+    }, (err) => {
+      console.log(err);
     });
   }
 }

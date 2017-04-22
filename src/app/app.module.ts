@@ -19,6 +19,7 @@ import { AngularFireModule } from 'angularfire2';
 //providers
 import { AuthProvider } from '../providers/auth';
 import { DataProvider } from '../providers/data';
+import { Facebook } from '@ionic-native/Facebook';
 
 // AF2 Settings
 export const firebaseConfig = {
@@ -63,6 +64,7 @@ export const firebaseConfig = {
     Geolocation,
     DataProvider,
     AuthProvider,
+    Facebook,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
