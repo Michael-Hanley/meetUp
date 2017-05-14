@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { Observable } from 'rxjs/Observable';
+import { AuthProvider } from './auth';
 
 @Injectable()
 export class DataProvider {
   item: FirebaseObjectObservable<any>;
-  constructor(private af: AngularFire) {
+  constructor(private af: AngularFire, private auth: AuthProvider) {
     this.item = af.database.object('/item');
   }
 

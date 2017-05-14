@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController  } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { DataProvider } from '../../providers/data';
-
+import { AuthProvider } from '../../providers/auth';
 declare var google;
 
 @Component({
@@ -13,11 +13,15 @@ export class HomePage {
 
   @ViewChild('map') mapElement: ElementRef;
   map: any;
+  user: any;
   constructor(public navCtrl: NavController,
   public geolocation: Geolocation,
-  private data: DataProvider) {
-
+  private data: DataProvider,
+  private auth: AuthProvider) {
+    this.loadMap();
+    this.showMyLocation();
   }
+
   ionViewDidLoad(){
     this.loadMap();
     this.showMyLocation();
@@ -27,6 +31,7 @@ export class HomePage {
    this.geolocation.getCurrentPosition().then((position) => {
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       let mapOptions = {
+        'backgroundColor': 'white',
         center: latLng,
         zoom: 17,
         mapTypeId: google.maps.MapTypeId.ROADMAP,

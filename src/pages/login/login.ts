@@ -4,6 +4,7 @@ import { TabsPage } from '../tabs/tabs';
 import { AuthProvider } from '../../providers/auth';
 import { ModalController } from 'ionic-angular';
 import { Register } from './register/register';
+import { DataProvider } from '../../providers/data';
 
 /**
  * Generated class for the Login page.
@@ -21,7 +22,7 @@ export class Login {
   error: any;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private loadingCtrl: LoadingController, private auth: AuthProvider,
-    public modalCtrl: ModalController) {
+    public modalCtrl: ModalController, private date: DataProvider) {
     this.form = {
       email: '',
       password: ''
